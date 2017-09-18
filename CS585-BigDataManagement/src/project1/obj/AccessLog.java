@@ -33,8 +33,8 @@ public class AccessLog {
 			String typeOfAccess = Generator.genRandomTypeOfAccessLog();
 			int accessTime = Generator.genRanInt(AllConstants.ACCESSLOG_ACCESSTIME_FROM, AllConstants.ACCESSLOG_ACCESSTIME_TO);
 			accessLogs[i] = new AccessLog(accessId, byWho, whatPage, typeOfAccess, accessTime);
-			if (i% 1000000 == 0) {
-				System.out.println(i + " AccessLogs generated");
+			if ((i + 1)% 1000000 == 0) {
+				System.out.println((i +1) + " AccessLogs generated");
 			}
 		}
 		return accessLogs;

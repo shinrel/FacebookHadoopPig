@@ -33,6 +33,7 @@ public class Main {
 //			pages[i] = MyPage.newRanInst();
 //			System.out.println(pages[i].toString());
 //		}
+		
 		System.out.println("Generating MyPage dataset");
 		MyPage[] pages = MyPage.generateMyPages();
 		writeObjs(pages, "datasets/proj1/mypage.csv");

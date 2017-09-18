@@ -58,7 +58,7 @@ public class Friends {
 			String desc = Generator.genRandomFriendsDesc();
 			friends[i] = new Friends(friendRel, personId, myFriend, dateOfFriendship, desc);
 			if ((i+1)% 1000000 == 0) {
-				System.out.println(i + " Friends generated");
+				System.out.println((i + 1) + " Friends generated");
 			}
 		}
 		return friends;

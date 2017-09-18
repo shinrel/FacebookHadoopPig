@@ -3,7 +3,7 @@ package constants;
 public class AllConstants {
 	public static final String SEPARATOR = ",";
 	
-	public static final float RATIO = (float)1/(float)1;
+	public static float RATIO = (float)1/(float)1;
 	
 	//******************************** MyPage dataset configuration *****************************************************//
 	public static final int MYPAGE_ID_FROM = 1;

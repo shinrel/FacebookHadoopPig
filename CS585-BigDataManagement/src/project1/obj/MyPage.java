@@ -29,15 +29,18 @@ public class MyPage {
 
 	public static MyPage newRanInst()
 	{
-		Generator.generateNationality();
 		int ID = Generator.genMyPageId();
 		String name = Generator.genRandomString(AllConstants.MYPAGE_NAME_LEN_FROM, 
 												AllConstants.MYPAGE_NAME_LEN_TO);
-//		String nationality = Generator.genRandomString(AllConstants.MYPAGE_NATIONALITY_LEN_FROM, 
-//														AllConstants.MYPAGE_NATIONALITY_LEN_TO);
+
 		int countryCode = Generator.genRanInt(AllConstants.MYPAGE_COUNTRYCODE_FROM,
 											  AllConstants.MYPAGE_COUNTRYCODE_TO);
-		String nationality = Generator.getNationality(countryCode);
+		
+//		Generator.generateNationality();
+//		String nationality = Generator.getNationality(countryCode);
+		String nationality = Generator.genRandomString(AllConstants.MYPAGE_NATIONALITY_LEN_FROM, 
+														AllConstants.MYPAGE_NATIONALITY_LEN_TO);
+				
 		String hobby = Generator.genRandomString(AllConstants.MYPAGE_HOBBY_LEN_FROM, 
 												 AllConstants.MYPAGE_HOBBY_LEN_TO);
 		MyPage page = new MyPage(ID, name, nationality, countryCode, hobby);
