@@ -33,17 +33,28 @@ public class Main {
 //			pages[i] = MyPage.newRanInst();
 //			System.out.println(pages[i].toString());
 //		}
+		boolean TEST = true;
+		String mypageFileOut = "datasets/proj1/mypage.csv";
+		String friendsFileOut = "datasets/proj1/friends.csv";
+		String accessLogFileOut = "datasets/proj1/access-log.csv";
 		
+		if (TEST) {
+			AllConstants.RATIO = (float)1/(float)100;
+			AllConstants.recalculate();
+			mypageFileOut = "datasets/proj1/mypage_test.csv";
+			friendsFileOut = "datasets/proj1/friends_test.csv";
+			accessLogFileOut = "datasets/proj1/access-log_test.csv";
+		} 
 		System.out.println("Generating MyPage dataset");
 		MyPage[] pages = MyPage.generateMyPages();
-		writeObjs(pages, "datasets/proj1/mypage.csv");
+		writeObjs(pages, mypageFileOut);
 		
 		System.out.println("Generating Friends dataset");
 		Friends[] friends = Friends.generateFriends();
-		writeObjs(friends, "datasets/proj1/friends.csv");
+		writeObjs(friends, friendsFileOut);
 		
 		System.out.println("Generating AccessLog dataset");
 		AccessLog[] accessLogs = AccessLog.generateAccessLog();
-		writeObjs(accessLogs, "datasets/proj1/access-log.csv");
+		writeObjs(accessLogs, accessLogFileOut);
 	}
 }
