@@ -1,61 +1,73 @@
 package project1.mapreduces;
 
+
+
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.StringTokenizer;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.FileInputFormat;
-import org.apache.hadoop.mapred.FileOutputFormat;
-import org.apache.hadoop.mapred.JobClient;
-import org.apache.hadoop.mapred.JobConf;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.Mapper;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reducer;
-import org.apache.hadoop.mapred.Reporter;
-import org.apache.hadoop.mapred.TextInputFormat;
-import org.apache.hadoop.mapred.TextOutputFormat;
-
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.GenericOptionsParser;
 
 public class Template {
-	public static class Map extends MapReduceBase implements Mapper<LongWritable, Text, Text, Text> {
+	public static class TokenizerMapper extends
+			Mapper<Object, Text, Text, IntWritable> {
 
-		public void map(LongWritable key, Text value,
-				OutputCollector<Text, Text> output, Reporter reporter)
-				throws IOException {
-					
-			
+		private final static IntWritable one = new IntWritable(1);
+		private Text word = new Text();
+
+		public void map(Object key, Text value, Context context)
+				throws IOException, InterruptedException {
+			StringTokenizer itr = new StringTokenizer(value.toString());
+			while (itr.hasMoreTokens()) {
+				word.set(itr.nextToken());
+				context.write(word, one);
+			}
 		}
-		
 	}
-	
-	public static class Reduce extends MapReduceBase implements Reducer<Text, Text, Text, Text> {	
-		public void reduce(Text key, Iterator<Text> values,
-				OutputCollector<Text, Text> output, Reporter reporter)
-				throws IOException {
-			
+
+	public static class IntSumReducer extends
+			Reducer<Text, IntWritable, Text, IntWritable> {
+		private IntWritable result = new IntWritable();
+
+		public void reduce(Text key, Iterable<IntWritable> values,
+				Context context) throws IOException, InterruptedException {
+			int sum = 0;
+			for (IntWritable val : values) {
+				sum += val.get();
+			}
+			result.set(sum);
+			context.write(key, result);
 		}
-		
 	}
-	
-	public static void main(String[] args) throws Exception {		
-		JobConf conf = new JobConf(Question2d.class);
-		conf.setJobName("Question2d");
 
-		conf.setOutputKeyClass(Text.class);
-		conf.setOutputValueClass(Text.class);
-
-		conf.setMapperClass(Map.class);
-		conf.setCombinerClass(Reduce.class);
-		conf.setReducerClass(Reduce.class);
-
-		conf.setInputFormat(TextInputFormat.class);
-		conf.setOutputFormat(TextOutputFormat.class);
-		FileInputFormat.setInputPaths(conf, new Path(args[0]));
-		FileOutputFormat.setOutputPath(conf, new Path(args[1]));
-		JobClient.runJob(conf);
-		
+	public static void main(String[] args) throws Exception {
+		Configuration conf = new Configuration();
+		String[] otherArgs = new GenericOptionsParser(conf, args)
+				.getRemainingArgs();
+		if (otherArgs.length < 2) {
+			System.err.println("Usage: wordcount <in> [<in>...] <out>");
+			System.exit(2);
+		}
+		Job job = Job.getInstance(conf, "word count");
+		job.setJarByClass(Template.class); //change the class here
+		job.setMapperClass(TokenizerMapper.class);
+		job.setCombinerClass(IntSumReducer.class);
+		job.setReducerClass(IntSumReducer.class);
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(IntWritable.class);
+		for (int i = 0; i < otherArgs.length - 1; ++i) {
+			FileInputFormat.addInputPath(job, new Path(otherArgs[i]));
+		}
+		FileOutputFormat.setOutputPath(job, new Path(
+				otherArgs[otherArgs.length - 1]));
+		System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}
 }
