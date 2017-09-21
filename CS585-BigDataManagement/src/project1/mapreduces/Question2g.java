@@ -17,7 +17,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 public class Question2g {
-	public static class MyMapperQuestion2g2 extends
+	public static class MyMapperQuestion2g extends
 			Mapper<Object, Text, IntWritable, IntWritable> {
 //		private static final int INTEREST_THRESHOLD = 2000000;
 //		private static final IntWritable keyOne = new IntWritable(1);
@@ -37,7 +37,7 @@ public class Question2g {
 		}
 	}
 
-	public static class MyReducerQuestion2g2 extends
+	public static class MyReducerQuestion2g extends
 			Reducer<IntWritable, IntWritable, IntWritable, IntWritable> {
 		
 		private static final int INTEREST_THRESHOLD = 900000;
@@ -61,14 +61,14 @@ public class Question2g {
 		String[] otherArgs = new GenericOptionsParser(conf, args)
 				.getRemainingArgs();
 		if (otherArgs.length < 2) {
-			System.err.println("Usage: ");
+			System.err.println("Usage:  Question2g [input] [output]");
 			System.exit(2);
 		}
-		Job job = Job.getInstance(conf, "Question 2f");
+		Job job = Job.getInstance(conf, "Question 2g");
 		job.setJarByClass(Question2g.class); //change the class here
-		job.setMapperClass(MyMapperQuestion2g2.class);
+		job.setMapperClass(MyMapperQuestion2g.class);
 //		job.setCombinerClass(IntSumReducer.class);
-		job.setReducerClass(MyReducerQuestion2g2.class);
+		job.setReducerClass(MyReducerQuestion2g.class);
 		
 		job.setMapOutputKeyClass(IntWritable.class);
 		job.setMapOutputValueClass(IntWritable.class);

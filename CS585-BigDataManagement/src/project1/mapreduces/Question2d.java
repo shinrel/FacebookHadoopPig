@@ -111,7 +111,7 @@ public class Question2d {
 		String[] otherArgs = new GenericOptionsParser(conf, args)
 				.getRemainingArgs();
 		if (otherArgs.length < 2) {
-			System.err.println("Usage: ");
+			System.err.println("Usage:  Question2d [input] [output] ");
 			System.exit(2);
 		}
 		Job job = Job.getInstance(conf, "question 2d");

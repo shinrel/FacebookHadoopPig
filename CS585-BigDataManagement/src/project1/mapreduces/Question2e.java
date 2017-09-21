@@ -64,7 +64,7 @@ public class Question2e {
 		String[] otherArgs = new GenericOptionsParser(conf, args)
 				.getRemainingArgs();
 		if (otherArgs.length < 2) {
-			System.err.println("Usage: ");
+			System.err.println("Usage:  Question2e [input] [output]");
 			System.exit(2);
 		}
 		Job job = Job.getInstance(conf, "Question 2e");
