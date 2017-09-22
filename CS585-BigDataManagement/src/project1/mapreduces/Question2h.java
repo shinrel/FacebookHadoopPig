@@ -39,7 +39,7 @@ public class Question2h {
 				// Friend datasets.
 				int personId = Integer.parseInt(tokens[1]);
 				int myFriendId = Integer.parseInt(tokens[2]);
-				context.write(oneKey, new IntWritable(myFriendId));
+				context.write(oneKey, new IntWritable(personId));
 			}
 		}
 	}
@@ -60,7 +60,7 @@ public class Question2h {
 				}
 			}
 
-			context.write(null, new DoubleWritable((double) 5000000
+			context.write(null, new DoubleWritable((double) 20000000
 					/ (double) count));
 		}
 	}
@@ -82,7 +82,7 @@ public class Question2h {
 				// Friend datasets.
 				int personId = Integer.parseInt(tokens[1]);
 				int myFriendId = Integer.parseInt(tokens[2]);
-				context.write(new IntWritable(myFriendId), one);
+				context.write(new IntWritable(personId), one);
 			}
 		}
 	}
@@ -109,7 +109,7 @@ public class Question2h {
 				sum += val.get();
 			}
 			if (sum > averageNumFriends) {
-				context.write(key, new IntWritable(sum));
+				context.write(key, null);
 			}
 		}
 	}

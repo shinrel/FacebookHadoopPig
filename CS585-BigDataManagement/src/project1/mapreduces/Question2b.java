@@ -69,7 +69,7 @@ public class Question2b {
 		Job job = Job.getInstance(conf, "question 2b");
 		job.setJarByClass(Question2b.class); // change the class here
 		job.setMapperClass(MyMapperQuestion2b.class);
-		job.setCombinerClass(MyReducerQuestion2b.class);
+		//job.setCombinerClass(MyReducerQuestion2b.class);
 		job.setReducerClass(MyReducerQuestion2b.class);
 		job.setMapOutputKeyClass(IntWritable.class);
 		job.setMapOutputValueClass(IntWritable.class);

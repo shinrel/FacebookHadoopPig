@@ -18,7 +18,17 @@ import java.util.TreeMap;
 public class Question2c {
 	public static class MyMapperQuestion2c extends
 			Mapper<Object, Text, IntWritable, IntWritable> {
+		
 		private HashMap<Integer, Integer> topInterestingPages = new HashMap<Integer, Integer>();
+
+		@Override
+		protected void cleanup(Context context) throws IOException,
+				InterruptedException {
+			for (Integer whatpage : topInterestingPages.keySet()) {
+				context.write(new IntWritable(whatpage), new IntWritable(
+						topInterestingPages.get(whatpage)));
+			}
+		}
 
 		public void map(Object key, Text value, Context context)
 				throws IOException, InterruptedException {
@@ -36,15 +46,7 @@ public class Question2c {
 			}
 		}
 
-		@Override
-		protected void cleanup(Context context) throws IOException,
-				InterruptedException {
-			for (Integer whatpage : topInterestingPages.keySet()) {
-				context.write(new IntWritable(whatpage), new IntWritable(
-						topInterestingPages.get(whatpage)));
-			}
-		}
-
+		
 	}
 
 	public static class MyReducerQuestion2c extends
@@ -65,7 +67,7 @@ public class Question2c {
 				InterruptedException {
 			// select top 10:
 			int i = 0;
-			while (i++ < 10 || topInterestingPages.size() <= 0 ) {
+			while (i++ < 10 ) {
 				int maxVal = -1;
 				int maxKey = -1;
 				for (Integer whatpage : topInterestingPages.keySet()) {
@@ -78,6 +80,7 @@ public class Question2c {
 				}
 				context.write(new IntWritable(maxKey), new IntWritable(maxVal));
 				topInterestingPages.remove(maxKey);
+				if (topInterestingPages.size() <= 0) break;
 			}
 		}
 	}

@@ -32,7 +32,6 @@ public class Question2d {
 			
 			Path[] uris = DistributedCache.getLocalCacheFiles(context
 					.getConfiguration());
-
 			try {
 				BufferedReader readBuffer = new BufferedReader(new FileReader(
 						uris[0].toString()));
@@ -129,6 +128,7 @@ public class Question2d {
 		DistributedCache
 				.addCacheFile(new URI(NAME_NODE
 						+ "/user/hadoop/input/all/mypage.csv"),
+						//+ "/user/hadoop/input/small_data/mypage_new.csv"),
 						job.getConfiguration());
 
 		for (int i = 0; i < otherArgs.length - 1; ++i) {
